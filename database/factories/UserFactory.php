@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-
+use App\Models\User;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -15,6 +15,7 @@ class UserFactory extends Factory
      * The current password being used by the factory.
      */
     protected static ?string $password;
+    protected $model = User::class;
 
     /**
      * Define the model's default state.
@@ -40,5 +41,18 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+    
+    /**
+     * Configure the factory to increment name as test1, test2, etc.
+     */
+    public function configure()
+    {
+        return $this->afterMaking(function (User $user) {
+            static $number = 1;
+            $user->name = 'test' . $number;
+            $user->password = Hash::make('password' . $number);
+            $number++;
+        });
     }
 }
