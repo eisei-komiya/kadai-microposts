@@ -19,14 +19,30 @@
                             {{-- 投稿内容 --}}
                             <p class="mb-0">{!! nl2br(e($micropost->content)) !!}</p>
                         </div>
-                        <div>
+                        <div class="flex items-center space-x-2">
                             @if (Auth::id() == $micropost->user_id)
                                 {{-- 投稿削除ボタンのフォーム --}}
                                 <form method="POST" action="{{ route('microposts.destroy', $micropost->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-error btn-sm normal-case" 
-                                        onclick="return confirm('Delete id = {{ $micropost->id }} ?')">Delete</button>
+                                        onclick="return confirm('Delete id = {{ $micropost->id }} ?')"  class="mr-4">Delete</button>
+                                </form>
+                            @endif
+                            @if (!Auth::user()->is_favoriting($micropost->id))
+                                {{-- お気に入りボタンのフォーム --}}
+                                <form method="POST" action="{{ route('favorites.favorite', $micropost->id) }}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-error btn-sm normal-case" 
+                                        onclick="">Favorite</button>
+                                </form>
+                            @else
+                                {{-- お気に入り解除ボタンのフォーム --}}
+                                <form method="POST" action="{{ route('favorites.unfavorite', $micropost->id) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-error btn-sm normal-case" 
+                                        onclick="">Unfavorite</button>
                                 </form>
                             @endif
                         </div>

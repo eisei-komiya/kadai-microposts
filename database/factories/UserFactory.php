@@ -51,6 +51,7 @@ class UserFactory extends Factory
         return $this->afterMaking(function (User $user) {
             static $number = 1;
             $user->name = 'test' . $number;
+            $user->email = $user->name . "@test.com";
             $user->password = Hash::make('password' . $number);
             $number++;
         });
