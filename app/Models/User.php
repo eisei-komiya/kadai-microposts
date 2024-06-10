@@ -157,4 +157,22 @@ class User extends Authenticatable
             return false;
         }
     }
+    
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+    
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            // ユーザー登録時にカテゴリを作成
+            $defaultCategories = ['Default', 'Category1', 'Category2', 'Category3'];
+            foreach ($defaultCategories as $categoryName) {
+                $user->categories()->create([
+                    'name' => $categoryName
+                ]);
+            }
+        });
+    }
 }
