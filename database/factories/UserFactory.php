@@ -49,10 +49,15 @@ class UserFactory extends Factory
     public function configure()
     {
         return $this->afterMaking(function (User $user) {
-            static $number = 1;
+            static $number = 0;
             $user->name = 'test' . $number;
             $user->email = $user->name . "@test.com";
             $user->password = Hash::make('password' . $number);
+            if($number===0){
+                $user->name = "Komiya";
+                $user->email = "eisei-komiya@dac.co.jp";
+                $user->password = Hash::make('password');
+            }
             $number++;
         });
     }

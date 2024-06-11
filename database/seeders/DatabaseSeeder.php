@@ -30,10 +30,19 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         });
+        //ユーザー一人一人に対して、
         User::all()->each(function ($user) {
-            $follows = User::where('id', '!=', $user->id)->inRandomOrder()->take(rand(1, 3))->get();
+            //自分以外のユーザーからランダムに4ユーザー取得
+            $follows = User::where('id', '!=', $user->id)->inRandomOrder()->take(4)->get();
             foreach ($follows as $follow) {
+                //フォロー
                 $user->follow($follow->id);
+            }
+            //ランダムに4ポスト取得
+            $posts = Micropost::inRandomOrder()->take(4)->get();
+            foreach ($posts as $post) {
+                //お気に入り登録
+                $user->favorite($post->id);
             }
         });
     }
