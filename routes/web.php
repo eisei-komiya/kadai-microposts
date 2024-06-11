@@ -6,7 +6,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MicropostsController;
 use App\Http\Controllers\UserFollowController;
 use App\Http\Controllers\FavoritesController;
-//use App\Http\Controllers\CategoriesContller;
+use App\Http\Controllers\CategoriesContller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,11 +17,6 @@ use App\Http\Controllers\FavoritesController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    Auth::loginUsingId(1); // IDが1のユーザーでログイン
-    return redirect()->action([MicropostsController::class, 'index']); // ログイン後のリダイレクト先
-});
 
 Route::get('/', [MicropostsController::class, 'index']);
 
