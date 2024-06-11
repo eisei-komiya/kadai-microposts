@@ -6,8 +6,6 @@ use App\Models\Micropost;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Faker\Provider\DateTime;
-use Faker\Factory as Faker;
 
 
 /**
@@ -16,7 +14,7 @@ use Faker\Factory as Faker;
 class MicropostFactory extends Factory
 {
     protected $model = Micropost::class;
-    
+
     /**
      * Define the model's default state.
      *
@@ -26,12 +24,12 @@ class MicropostFactory extends Factory
     {
         $user = User::inRandomOrder()->first();
         $category = Category::where('user_id', $user->id)->inRandomOrder()->first();
-        $faker = Faker::create('ja_JP');
+
         return [
             'user_id' => $user->id,
             'category_id' => $category->id,
-            'content' => "",
-            'created_at' => DateTime::dateTimeThisDecade(), //過去10年のランダムなdatetime
+            'content' => $this->faker->realText(10, 5),
+            'created_at' => $this->faker->dateTimeThisDecade(), // 過去10年のランダムなdatetime
             'updated_at' => now(),
         ];
     }
