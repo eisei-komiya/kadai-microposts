@@ -5,11 +5,13 @@
                 <li class="flex items-start justify-between gap-x-2 mb-4">
                     <div class="flex items-start gap-x-2">
                         {{-- 投稿の所有者のメールアドレスをもとにGravatarを取得して表示 --}}
-                        <div class="avatar">
-                            <div class="w-12 rounded">
-                                <img src="{{ Gravatar::get($micropost->user->email) }}" alt="" />
-                            </div>
-                        </div>
+                        <a href="{{ route('users.show', $micropost->user->id) }}">
+                            <div class="avatar">
+                                    <div class="w-12 rounded-full">
+                                        <img src="{{ Gravatar::get($micropost->user->email) }}" alt="" />
+                                    </div>
+                                </div>
+                            </a>
                         <div>
                             <div>
                                 {{-- 投稿の所有者のユーザー詳細ページへのリンク --}}

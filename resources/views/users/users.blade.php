@@ -4,7 +4,7 @@
             <li class="flex items-center gap-x-2 mb-4">
                 {{-- ユーザーのメールアドレスをもとにGravatarを取得して表示 --}}
                 <div class="avatar">
-                    <div class="w-12 rounded">
+                    <div class="w-12 rounded-full">
                         <img src="{{ Gravatar::get($user->email) }}" alt="" />
                     </div>
                 </div>
