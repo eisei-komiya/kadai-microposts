@@ -15,7 +15,7 @@ class MicropostsController extends Controller
             // 認証済みユーザーを取得
             $user = \Auth::user();
             // ユーザーとフォロー中ユーザーの投稿の一覧を作成日時の降順で取得
-            $microposts = $user->feed_microposts()->orderBy('created_at', 'desc')->paginate(10);
+            $microposts = $user->feed_microposts()->orderBy('created_at', 'desc')->paginate(15);
 
             $data = [
                 'user' => $user,
@@ -29,18 +29,21 @@ class MicropostsController extends Controller
     
     public function store(Request $request)
     {
+         //\Log::info($request->all());
         // バリデーション
         $request->validate([
             'content' => 'required|max:255',
+            'category_id' => 'required|max:255',
         ]);
         
         // 認証済みユーザー（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $request->user()->microposts()->create([
             'content' => $request->content,
+            'category_id' => $request->category_id,
         ]);
         
         // 前のURLへリダイレクトさせる
-        return back();
+        return redirect('/');
     }
     
     public function destroy(string $id)
@@ -58,5 +61,11 @@ class MicropostsController extends Controller
         // 前のURLへリダイレクトさせる
         return back()
             ->with('Delete Failed');
+    }
+    
+    public function create()
+    {
+        $user = \Auth::user();
+        return view('microposts.newpost',['user' => $user]);
     }
 }

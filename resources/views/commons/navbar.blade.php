@@ -1,4 +1,4 @@
-<header class="mb-4">
+<header class="fixed w-full z-20">
     <nav class="navbar bg-neutral text-neutral-content">
         {{-- トップページへのリンク --}}
         <div class="flex-1">

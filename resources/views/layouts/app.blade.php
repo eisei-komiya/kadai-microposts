@@ -13,11 +13,12 @@
         {{-- ナビゲーションバー --}}
         @include('commons.navbar')
 
-        <div class="container mx-auto">
+        <div class="container mx-20 pt-20 mb-10">
             {{-- エラーメッセージ --}}
             @include('commons.error_messages')
 
             @yield('content')
+            @include('commons.post_button')
         </div>
 
     </body>
