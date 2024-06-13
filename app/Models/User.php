@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -165,12 +166,17 @@ class User extends Authenticatable
     
     public function postsByCategory()
     {
-        return $this->microposts()
-                    ->select('category_id', \DB::raw('count(*) as count'))
-                    ->groupBy('category_id')
-                    ->with('category')
-                    ->orderBy('category_id')
-                    ->get();
+        $cacheKey = 'user_' . $this->id . '_posts_by_category';
+        $cacheTTL = 60 * 60; // キャッシュの有効期限（秒）
+
+        return Cache::remember($cacheKey, $cacheTTL, function () {
+            return $this->microposts()
+                        ->select('category_id', \DB::raw('count(*) as count'))
+                        ->groupBy('category_id')
+                        ->with('category')
+                        ->orderBy('category_id')
+                        ->get();
+        });
     }
     
     protected static function booted()

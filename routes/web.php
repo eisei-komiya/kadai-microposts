@@ -3,10 +3,10 @@
 //use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController; 
-use App\Http\Controllers\MicropostsController;
-use App\Http\Controllers\UserFollowController;
-use App\Http\Controllers\FavoritesController;
-use App\Http\Controllers\CategoriesContller;
+                    use App\Http\Controllers\MicropostsController;
+                    use App\Http\Controllers\UserFollowController;
+                    use App\Http\Controllers\FavoritesController;
+                    use App\Http\Controllers\CategoriesContller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
