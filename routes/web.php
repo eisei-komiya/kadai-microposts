@@ -30,12 +30,14 @@ Route::middleware('auth')->group(function () {//認証されてなければ/logi
         Route::get('followings', [UsersController::class, 'followings'])->name('users.followings');
         Route::get('followers', [UsersController::class, 'followers'])->name('users.followers');
         Route::get('favorites', [UsersController::class, 'favorites'])->name('users.favorites');
+        Route::get('/show/{category_id?}',[UsersController::class, 'show'])->name('users.show');
     });
     Route::prefix('microposts/{id}')->group(function() {
         Route::post('favorites', [FavoritesController::class, 'store'])->name('favorites.favorite');
         Route::delete('unfavorite', [FavoritesController::class, 'destroy'])->name('favorites.unfavorite');
     });
-    Route::resource('users', UsersController::class, ['only' => ['index', 'show']]);
+    Route::resource('users', UsersController::class, ['only' => ['index']]);
+    
     //Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     //Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     //Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

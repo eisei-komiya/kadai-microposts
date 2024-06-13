@@ -20,7 +20,7 @@ class UsersController extends Controller
         ]);
     }
     
-    public function show(string $id)
+    public function show(string $id, string $category_id = '1')
     {
         // idの値でユーザーを検索して取得
         $user = User::findOrFail($id);
@@ -28,13 +28,20 @@ class UsersController extends Controller
         // 関係するモデルの件数をロード
         $user->loadRelationshipCounts();
         
-        // ユーザーの投稿一覧を作成日時の降順で取得
-        $microposts = $user->microposts()->orderBy('created_at', 'desc')->paginate(10);
+        // カテゴリごとのマイクロポストの数を取得
+        $postsByCategory = $user->postsByCategory();
+
+        // 指定されたカテゴリに属するマイクロポストを取得してページネート
+        $microposts = $user->microposts()
+                           ->where('category_id', $category_id)
+                           ->orderBy('created_at', 'desc')
+                           ->paginate(10);
 
         // ユーザー詳細ビューでそれを表示
         return view('users.show', [
             'user' => $user,
-            'microposts' => $microposts
+            'microposts' => $microposts,
+            'postsByCategory' => $postsByCategory
         ]);
     }
     

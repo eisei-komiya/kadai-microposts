@@ -6,13 +6,13 @@
                     {{-- アイコン --}}
                     <div class="gap-x-2">
                         {{-- 投稿の所有者のメールアドレスをもとにGravatarを取得して表示 --}}
-                        <a href="{{ route('users.show', $micropost->user->id) }}">
+                        <a href="{{ route('users.show', $micropost->user->id,1) }}">
                             <div class="avatar">
-                                    <div class="w-12 rounded-full">
-                                        <img src="{{ Gravatar::get($micropost->user->email) }}" alt="" />
-                                    </div>
+                                <div class="w-12 rounded-full">
+                                    <img src="{{ Gravatar::get($micropost->user->email) }}" alt="" />
                                 </div>
-                            </a>
+                            </div>
+                        </a>
                     </div>
                     
                     {{-- 右全部 --}}

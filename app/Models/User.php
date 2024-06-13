@@ -163,6 +163,16 @@ class User extends Authenticatable
         return $this->hasMany(Category::class);
     }
     
+    public function postsByCategory()
+    {
+        return $this->microposts()
+                    ->select('category_id', \DB::raw('count(*) as count'))
+                    ->groupBy('category_id')
+                    ->with('category')
+                    ->orderBy('category_id')
+                    ->get();
+    }
+    
     protected static function booted()
     {
         static::created(function ($user) {

@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         
         User::factory(10)->create()->each(function ($user) {
             foreach ($user->categories as $category) {
-                Micropost::factory(1)->create([
+                Micropost::factory(20)->create([
                     'user_id' => $user->id,
                     'category_id' => $category->id
                 ]);
@@ -33,13 +33,13 @@ class DatabaseSeeder extends Seeder
         //ユーザー一人一人に対して、
         User::all()->each(function ($user) {
             //自分以外のユーザーからランダムに4ユーザー取得
-            $follows = User::where('id', '!=', $user->id)->inRandomOrder()->take(4)->get();
+            $follows = User::where('id', '!=', $user->id)->inRandomOrder()->take(5)->get();
             foreach ($follows as $follow) {
                 //フォロー
                 $user->follow($follow->id);
             }
             //ランダムに4ポスト取得
-            $posts = Micropost::inRandomOrder()->take(4)->get();
+            $posts = Micropost::inRandomOrder()->take(20)->get();
             foreach ($posts as $post) {
                 //お気に入り登録
                 $user->favorite($post->id);
