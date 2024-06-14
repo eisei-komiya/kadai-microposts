@@ -22,7 +22,7 @@
                         <div class="flex items-center">
                             {{-- 投稿の所有者のユーザー詳細ページへのリンク --}}
                             <a class="link link-hover text-info" href="{{ route('users.show', $micropost->user->id) }}">{{ $micropost->user->name }}</a>
-                            <strong class="ml-4">{{ $micropost->category->name }}</strong>
+                            <strong class="ml-4" style="color: {{$micropost->category->color}}">{{ $micropost->category->name }}</strong>
                             <span class="text-muted text-gray-500 ml-auto">posted at {{ $micropost->created_at }}</span>
                             
                         </div>

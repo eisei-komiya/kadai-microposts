@@ -16,7 +16,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('microposts', function (Blueprint $table) {
+            $table->dropForeign(['category_id']);
             $table->dropIndex(['category_id']);
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 };

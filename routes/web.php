@@ -3,10 +3,10 @@
 //use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController; 
-                    use App\Http\Controllers\MicropostsController;
-                    use App\Http\Controllers\UserFollowController;
-                    use App\Http\Controllers\FavoritesController;
-                    use App\Http\Controllers\CategoriesContller;
+use App\Http\Controllers\MicropostsController;
+use App\Http\Controllers\UserFollowController;
+use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\CategoriesContller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {//認証されてなければ/logi
         Route::get('followers', [UsersController::class, 'followers'])->name('users.followers');
         Route::get('favorites', [UsersController::class, 'favorites'])->name('users.favorites');
         Route::get('/show/{category_id?}',[UsersController::class, 'show'])->name('users.show');
+        Route::put('/category/{category_id}', [CategoryController::class, 'update'])->name('category.update');
+        Route::get('/category/{category_id}', [CategoryController::class, 'edit'])->name('category.edit');
     });
     Route::prefix('microposts/{id}')->group(function() {
         Route::post('favorites', [FavoritesController::class, 'store'])->name('favorites.favorite');

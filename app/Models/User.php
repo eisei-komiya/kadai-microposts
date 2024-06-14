@@ -161,21 +161,20 @@ class User extends Authenticatable
     
     public function categories()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(Category::class)->orderBy('id');;
     }
     
-    public function postsByCategory()
+    public function postCountsByCategories()
     {
-        $cacheKey = 'user_' . $this->id . '_posts_by_category';
+        $cacheKey = 'user_' . $this->id . '_post_counts_by_categories';
         $cacheTTL = 60 * 60; // キャッシュの有効期限（秒）
 
         return Cache::remember($cacheKey, $cacheTTL, function () {
             return $this->microposts()
                         ->select('category_id', \DB::raw('count(*) as count'))
                         ->groupBy('category_id')
-                        ->with('category')
                         ->orderBy('category_id')
-                        ->get();
+                        ->pluck('count','category_id');
         });
     }
     
@@ -184,9 +183,11 @@ class User extends Authenticatable
         static::created(function ($user) {
             // ユーザー登録時にカテゴリを作成
             $defaultCategories = ['Default', 'Category1', 'Category2', 'Category3'];
-            foreach ($defaultCategories as $categoryName) {
+            $defaultColors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1'];
+            foreach ($defaultCategories as $index => $categoryName) {
                 $user->categories()->create([
-                    'name' => $categoryName
+                    'name' => $categoryName,
+                    'color' => $defaultColors[$index] // 色を適用
                 ]);
             }
         });
