@@ -30,13 +30,25 @@
                 {{ $category->name }}
                 <div class="badge badge-neutral ml-1">{{ $postCounts->get($category->id, 0) }}</div>
                 @if (Auth::id() == $user->id)
-                <span class="btn-sm ml-2 items-center" href="{{ route('category.edit', ['id' => $user->id, 'category_id' => $category->id]) }}">
+                <div class="btn-sm ml-2 items-center link" data-category-id="{{ $category->id }}"">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-1.5l-7.5 7.5a2.5 2.5 0 01-1.086.608l-3 .75a.5.5 0 01-.608-.608l.75-3a2.5 2.5 0 01.608-1.086l7.5-7.5z" />
                     </svg>
-                </span>
+                </div>
                 @endif
             </a>
         @endforeach
     </div>
 @endif
+<script>
+    $(document).ready(function() {
+    $('.link').on('click', function() {
+        event.preventDefault();
+        var categoryId = $(this).data('category-id');
+        var userId = "{{ $user->id }}"; // BladeテンプレートからユーザーIDを取得
+        var url = "{{ route('category.edit', ['id' => ':userId', 'category_id' => ':categoryId']) }}";
+        url = url.replace(':userId', userId).replace(':categoryId', categoryId);
+        window.location.href = url;
+    });
+});
+</script>

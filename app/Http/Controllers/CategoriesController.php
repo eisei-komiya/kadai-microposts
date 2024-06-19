@@ -46,8 +46,8 @@ class CategoriesController extends Controller
     {
         $user = User::findOrFail($id);
         if(\Auth::id() === $user->id){
-            $category=$user->categories()->where('id',$category_id);
-            return view('categories.edit',['category' => $category]);
+            $category=$user->categories()->where('id',$category_id)->firstOrFail();
+            return view('categories.edit',['user'=>$user,'category' => $category]);
         } 
         return redirect('/');
     }
@@ -55,18 +55,21 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $category_id)
+    public function update(Request $request,string $id, string $category_id)
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'color' => 'required|string|max:7' // 例: #FFFFFF
         ]);
         $user = User::findOrFail($id);
-        $category->name = $request->input('name');
-        $category->color = $request->input('color');
-        $category->save();
+        if (\Auth::id() === $user->id) {
+            $category = $user->categories()->where('id', $category_id)->firstOrFail();
+            $category->name = $request->input('name');
+            $category->color = $request->input('color');
+            $category->save();
+        }
 
-        return response()->json(['success' => true]);
+        return redirect()->route('users.show', ['id' => $user->id,'category_id' => $category_id]);
     }
 
     /**
