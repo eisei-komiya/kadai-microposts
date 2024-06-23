@@ -21,20 +21,23 @@
     </a>
 </div>
 @if (Request::routeIs('users.show'))
-    <div role="tablist" class="tabs tabs-bordered">
+    <div role="tablist" class="tabs tabs-bordered ">
         @foreach ($categories as $category)
             {{-- default category --}}
             <a role="tab" style="color: {{ $category->color }}"
                href="{{ route('users.show', ['id' => $user->id, 'category_id' => $category->id]) }}" 
-               class="tab grow flex items-center {{ (request()->route('category_id') == $category->id || (request()->route('category_id') === null && $category->id == intval($user->id)*4-3)) ? 'tab-active' : '' }}">
-                {{ $category->name }}
-                <div class="badge badge-neutral ml-1">{{ $postCounts->get($category->id, 0) }}</div>
-                @if (Auth::id() == $user->id)
-                <div class="btn-sm ml-2 items-center link" data-category-id="{{ $category->id }}"">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-1.5l-7.5 7.5a2.5 2.5 0 01-1.086.608l-3 .75a.5.5 0 01-.608-.608l.75-3a2.5 2.5 0 01.608-1.086l7.5-7.5z" />
-                    </svg>
+               class="tab grow flex items-center relative {{ (request()->route('category_id') == $category->id || (request()->route('category_id') === null && $category->id == intval($user->id)*4-3)) ? 'tab-active' : '' }}">
+                <div class="flex-grow text-center">
+                    <span>{{ $category->name }}</span>
+                    <div class="badge badge-neutral mx-2">{{ $postCounts->get($category->id, 0) }}</div>
                 </div>
+                
+                @if (Auth::id() == $user->id)
+                    <div class="absolute right-0 edit-button" data-category-id="{{ $category->id }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                    </div>
                 @endif
             </a>
         @endforeach
@@ -42,7 +45,7 @@
 @endif
 <script>
     $(document).ready(function() {
-    $('.link').on('click', function() {
+    $('.edit-button').on('click', function(event) {
         event.preventDefault();
         var categoryId = $(this).data('category-id');
         var userId = "{{ $user->id }}"; // BladeテンプレートからユーザーIDを取得
