@@ -15,7 +15,7 @@
             </div>
             <ul tabindex="0" class="dropdown-content z-200 p-2 shadow-2xl bg-base-300 rounded-box w-52 max-h-80 overflow-y-auto">
                 @foreach ([
-                    'default', 'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate', 
+                    'light', 'dark', 'cupcake', 'bumblebee', 'emerald', 'corporate', 
                     'synthwave', 'retro', 'cyberpunk', 'valentine', 'halloween', 'garden', 
                     'forest', 'aqua', 'lofi', 'pastel', 'fantasy', 'wireframe', 'black', 
                     'luxury', 'dracula', 'cmyk', 'autumn', 'business', 'acid', 'lemonade', 

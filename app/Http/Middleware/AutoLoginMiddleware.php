@@ -9,7 +9,7 @@ class AutoLoginMiddleware
     public function handle($request, Closure $next)
     {
         if (app()->environment('local')) { // 開発環境のみ
-            Auth::loginUsingId(1); // IDが1のユーザーでログイン
+            //Auth::loginUsingId(1); // IDが1のユーザーでログイン
         }
         return $next($request);
     }

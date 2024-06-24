@@ -20,7 +20,9 @@
             @include('commons.error_messages')
 
             @yield('content')
-            @include('commons.post_button')
+            @if(Auth::check())
+                @include('commons.post_button')
+            @endif
         </div>
 
     </body>
